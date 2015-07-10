@@ -3,8 +3,8 @@
 #include <stdlib.h>
 #include <bcm2835.h>
 
-//scp markerup.c pi@192.168.1.18:/home/pi/Desktop/GPIO_C_driver
-//gcc -o markerup -I bcm2835-1.8/src bcm2835-1.8/src/bcm2835.c markerup.c
+//scp markerup.c pi@10.0.1.18:/home/pi/GPIO_C_driver
+//gcc -o markerup -I bcm2835-1.44/src bcm2835-1.44/src/bcm2835.c markerup.c
 
 
 #define RIGHT_CLOCK RPI_GPIO_P1_05
