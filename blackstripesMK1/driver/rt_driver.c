@@ -15,8 +15,8 @@ RT_TASK draw_task;
 #define LEFT_DIR RPI_GPIO_P1_07
 #define SOLENOID RPI_GPIO_P1_10
 
-//scp rt_driver.c jed@192.168.1.12:/home/jed/GPIO_C_driver
-//gcc -I/usr/xenomai/include -Ibcm2835-1.8/src bcm2835-1.8/src/bcm2835.c rt_driver.c -L/usr/xenomai/lib -lnative -lxenomai -o rt_driver
+//scp rt_driver.c pi@10.0.1.18:/home/jed/GPIO_C_driver
+//gcc -I/usr/xenomai/include -Ibcm2835-1.44/src bcm2835-1.44/src/bcm2835.c rt_driver.c -L/usr/xenomai/lib -lnative -lxenomai -o rt_driver
 //export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/xenomai/lib
 
 /* NOTE: error handling omitted. */
