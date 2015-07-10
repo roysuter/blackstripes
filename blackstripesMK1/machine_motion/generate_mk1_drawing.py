@@ -67,7 +67,7 @@ if __name__ == '__main__':
     zf.write('layer3.dat')
     zf.close()
     
-    command = "scp generated_data/"+order_id+"/"+order_id+".zip jed@192.168.0.103:/home/jed/GPIO_C_driver/job.zip"
+    command = "scp generated_data/"+order_id+"/"+order_id+".zip pi@10.0.1.18:/home/pi/GPIO_C_driver/job.zip"
     res = os.system(command)
     if res:
         print "ERROR"
