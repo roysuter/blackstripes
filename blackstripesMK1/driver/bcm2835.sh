@@ -1,3 +1,4 @@
+#!/usr/bash
 #//install bcm2835 V1.44
 #// The library homepage  http://www.airspayce.com/mikem/bcm2835/
 #//scp bcm2835.sh pi@10.0.1.18:/home/pi/GPIO_C_driver
