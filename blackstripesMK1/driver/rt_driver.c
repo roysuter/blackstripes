@@ -19,6 +19,9 @@ RT_TASK draw_task;
 //gcc -I /usr/include/xenomai -I bcm2835-1.8/src bcm2835-1.44/src/bcm2835.c rt_driver.c -L /usr/lib/xenomai -lnative -lxenomai -o rt_driver
 //export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/xenomai/lib
 
+//orig
+//gcc -I/usr/xenomai/include -Ibcm2835-1.8/src bcm2835-1.8/src/bcm2835.c rt_driver.c -L/usr/xenomai/lib -lnative -lxenomai -o rt_driver
+//export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/xenomai/lib
 
 /* NOTE: error handling omitted. */
 
