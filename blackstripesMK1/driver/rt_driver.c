@@ -16,7 +16,7 @@ RT_TASK draw_task;
 #define SOLENOID RPI_GPIO_P1_10
 
 //scp rt_driver.c pi@10.0.1.18:/home/pi/GPIO_C_driver
-//gcc -I /usr/include/xenomai -I bcm2835-1.8/src bcm2835-1.44/src/bcm2835.c rt_driver.c -L /usr/lib/xenomai -lnative -lxenomai -o rt_driver
+//gcc -I /usr/include/xenomai -I bcm2835-1.44/src bcm2835-1.44/src/bcm2835.c rt_driver.c -L /usr/lib/xenomai -lnative -lxenomai -o rt_driver
 //export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/xenomai/lib
 
 //orig
