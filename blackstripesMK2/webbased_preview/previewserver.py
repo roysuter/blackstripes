@@ -19,8 +19,8 @@
 # http://kevinworthington.com/nginx-for-mac-os-x-mavericks-in-2-minutes/
 # https://github.com/vkholodkov/nginx-upload-module/tree/2.2
 # git clone -b 2.2 git://github.com/vkholodkov/nginx-upload-module.git nginx-upload-module-2.2m
-# sudo ./configure --prefix=/usr/local --with-http_ssl_module --with-pcre=../pcre-8.33 --add-module=/Users/johantenbroeke/Desktop/nginx-upload-module-2.2m
-# sudo /usr/local/sbin/nginx -c /Users/johantenbroeke/Sites/projects/fullscreen_github/blackstripes/blackstripesMK2/webbased_preview/nginx.conf
+# sudo ./configure --prefix=/usr/local --with-http_ssl_module --with-pcre=../pcre-8.33 --add-module=/home/rolf/Documents/nginx-upload-module-2.2m
+# sudo /usr/local/sbin/nginx -c /home/rolf/Documents/blackstripes/blackstripesMK2/webbased_preview/nginx.conf
 
 
 import tornado.httpserver
