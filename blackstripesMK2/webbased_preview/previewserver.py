@@ -13,6 +13,16 @@
 # WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 # License for the specific language governing permissions and limitations
 # under the License.
+# third-party-modules-into-nginx
+# https://serversforhackers.com/compiling-third-party-modules-into-nginx
+
+# install tornado
+# Manual installation: Download tornado-4.2.1.tar.gz:
+# tar xvzf tornado-4.2.1.tar.gz
+# cd tornado-4.2.1
+# python setup.py build
+#  sudo python setup.py install
+
 
 # notes to self
 # http://didipkerabat.com/post/2724838963/nginx-file-upload-and-tornado-framework
