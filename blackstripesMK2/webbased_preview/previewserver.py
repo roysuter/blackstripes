@@ -34,6 +34,7 @@
 # sudo ./configure --prefix=/usr/local --with-http_ssl_module --with-pcre=../pcre-8.33 --add-module=/home/rolf/Documents/nginx-upload-module-2.2m
 
 # sudo wget https://github.com/vkholodkov/nginx-upload-module/archive/2.2.zip
+# unzip 2.2.zip
 
 # sudo /usr/local/sbin/nginx -c /home/rolf/Documents/blackstripes/blackstripesMK2/webbased_preview/nginx.conf
 
