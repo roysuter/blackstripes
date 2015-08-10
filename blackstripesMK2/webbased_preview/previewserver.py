@@ -30,6 +30,7 @@
 # https://github.com/vkholodkov/nginx-upload-module/tree/2.2
 # git clone -b 2.2 git://github.com/vkholodkov/nginx-upload-module.git nginx-upload-module-2.2m
 
+# NOTE: nginx-upload-module 2.2.0 is ONLY supported up to nginx versions 1.3.8 (dev) up to release-1.2.6  / 1.2.9 branch is unaffected.
 
 # sudo ./configure --prefix=/usr/local --with-http_ssl_module --with-pcre=../pcre-8.33 --add-module=/home/rolf/Documents/nginx-upload-module-2.2m
 
