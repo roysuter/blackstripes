@@ -1,53 +1,44 @@
 #!/usr/bin/env python
 #
-# Copyright 2009 Facebook
 #
-# Licensed under the Apache License, Version 2.0 (the "License"); you may
-# not use this file except in compliance with the License. You may obtain
-# a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-# License for the specific language governing permissions and limitations
-# under the License.
-
 # third-party-modules-into-nginx
 # https://serversforhackers.com/compiling-third-party-modules-into-nginx
 # https://www.howtoforge.com/tutorial/nginx-with-ngx_pagespeed-on-debian-8-jessie/
-
+#
 # install tornado
 # Manual installation: Download tornado-4.2.1.tar.gz:
 # tar xvzf tornado-4.2.1.tar.gz
 # cd tornado-4.2.1
 # python setup.py build
 #  sudo python setup.py install
-
-
+#
+#
 # notes to self
 # http://didipkerabat.com/post/2724838963/nginx-file-upload-and-tornado-framework
 # http://kevinworthington.com/nginx-for-mac-os-x-mavericks-in-2-minutes/
-
+#
+# Installing the SciPy Stack :  sudo apt-get install python-numpy python-scipy python-matplotlib ipython ipython-notebook python-pandas python-sympy python-nose
+#
 # NOTE: nginx-upload-module 2.2.0 is ONLY supported up to nginx versions 1.3.8 (dev) up to release-1.2.6  / 1.2.9 branch is unaffected.
-
+#
+# packages list and install:   apt-get install dpkg-dev build-essential zlib1g-dev libpcre3 libpcre3-dev unzip curl libcurl4-openssl-dev libossp-uuid-dev
+#
 # Nginx Source  http://nginx.org/
 # nginx-upload-module  https://github.com/vkholodkov/nginx-upload-module/tree/2.2
 # sudo wget https://github.com/vkholodkov/nginx-upload-module/archive/2.2.zip
 # unzip 2.2.zip
 # git clone -b 2.2 git://github.com/vkholodkov/nginx-upload-module.git nginx-upload-module-2.2m
-
+#
 # PCRE - Perl Compatible Regular Expressions   http://www.pcre.org/
-
+#
 # sudo ./configure --prefix=/usr/local --with-http_ssl_module --with-pcre=../pcre-8.33 --add-module=/home/rolf/Documents/nginx-upload-module-2.2m
-
+#
 # sudo ./configure --prefix=/usr/local --with-http_ssl_module --with-pcre=/home/rolf/Documents/pcre-8.37 --add-module=/home/rolf/Documents/nginx-upload-module-2.2
-
+#
 # make
 # make install
-
-
+#
+#
 # sudo /usr/local/sbin/nginx -c /home/rolf/Documents/blackstripes/blackstripesMK2/webbased_preview/nginx.conf
 
 
