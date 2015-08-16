@@ -1,0 +1,27 @@
+sudo /etc/init.d/nginx start
+sudo /etc/init.d/nginx stop
+sudo /etc/init.d/nginx restart
+
+
+ Options
+
+Nginx has only a few command-line parameters. Unlike many other software systems, the configuration is done entirely via the configuration file (imagine that).
+
+-c </path/to/config> Specify which configuration file Nginx should use instead of the default.
+
+-g Set global directives. (version >=0.7.4)
+
+-t Don't run, just test the configuration file. nginx checks configuration for correct syntax and then try to open files referred in configuration.
+
+-s signal Send signal to a master process: stop, quit, reopen, reload. (version >= 0.7.53)
+
+-v Print version.
+
+-V Print nginx version, compiler version and configure parameters.
+
+-p prefix Set prefix path (default: /usr/local/nginx/). (version >= 0.7.53)
+
+-h,-? Print help. 
+
+
+ /usr/local/sbin/nginx -s stop
