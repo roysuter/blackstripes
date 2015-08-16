@@ -1,309 +1,126 @@
-import numpy as np
+#!/usr/bin/env python
+#
+#
+# third-party-modules-into-nginx
+# https://serversforhackers.com/compiling-third-party-modules-into-nginx
+# https://www.howtoforge.com/tutorial/nginx-with-ngx_pagespeed-on-debian-8-jessie/
+#
+# install tornado
+# Manual installation: Download tornado-4.2.1.tar.gz:
+# tar xvzf tornado-4.2.1.tar.gz
+# cd tornado-4.2.1
+# python setup.py build
+#  sudo python setup.py install
+#
+#
+# notes to self
+# http://didipkerabat.com/post/2724838963/nginx-file-upload-and-tornado-framework
+# http://kevinworthington.com/nginx-for-mac-os-x-mavericks-in-2-minutes/
+#
+# Installing the SciPy Stack :  sudo apt-get install python-numpy python-scipy python-matplotlib ipython ipython-notebook python-pandas python-sympy python-nose
+#
+# NOTE: nginx-upload-module 2.2.0 is ONLY supported up to nginx versions 1.3.8 (dev) up to release-1.2.6  / 1.2.9 branch is unaffected.
+#
+# packages list and install:   apt-get install dpkg-dev build-essential zlib1g-dev libpcre3 libpcre3-dev unzip curl libcurl4-openssl-dev libossp-uuid-dev
+#
+# Nginx Source  http://nginx.org/
+# nginx-upload-module  https://github.com/vkholodkov/nginx-upload-module/tree/2.2
+# sudo wget https://github.com/vkholodkov/nginx-upload-module/archive/2.2.zip
+# unzip 2.2.zip
+# git clone -b 2.2 git://github.com/vkholodkov/nginx-upload-module.git nginx-upload-module-2.2m
+#
+# PCRE - Perl Compatible Regular Expressions   http://www.pcre.org/
+#
+# sudo ./configure --prefix=/usr/local --with-http_ssl_module --with-pcre=../pcre-8.33 --add-module=/home/rolf/Documents/nginx-upload-module-2.2m
+#
+# sudo ./configure --prefix=/usr/local --with-http_ssl_module --with-pcre=/home/rolf/Documents/pcre-8.37 --add-module=/home/rolf/Documents/nginx-upload-module-2.2
+#
+# make
+# make install
+#
+#
+# sudo /usr/local/sbin/nginx -c /home/rolf/Documents/blackstripes/blackstripesMK2/webbased_preview/nginx.conf
+
+
+
+
+import tornado.httpserver
+import tornado.ioloop
+import tornado.options
+import tornado.web
+
+from tornado.options import define, options
+
 import Image
-import os
-import settings
-import json
+import webbased_preview
+
+import hashlib
+
+define("port", default=8888, help="run on the given port", type=int)
 
 
-OUPUT_DIR = "www/images/"
+class MainHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.write("Blackstripes preview server.")
 
-class OutputFolder:
-    def __init__(self):
-        try:
-            os.makedirs(OUPUT_DIR) 
-        except:
-            print "folder OK"
+class UploadHandler(tornado.web.RequestHandler):
 
+    def post(self):
+        imagename = self.get_argument('image.name', default=None)
+        path = self.get_argument('image.path', default=None)
 
-class Response:
+        m = hashlib.md5()
+        m.update(path+"fullscreen zacht spul is beter")
+        md5str = m.hexdigest()
 
-    def __init__(self):
-        self.data = {}
-        self.data['endpoint'] = "http://10.0.1.30:8000/"
-        self.data['imagepath'] = "images/"
-        self.data['version'] = "v2/"
-        self.data['next'] = ""
-        self.data['options'] = []
-        self.data['imtype'] = ".png"
-        self.data['id'] = ""
+        pr = webbased_preview.Cropper(path,md5str,self.version)
+        self.write(pr.getJSON())
 
-    def setID(self,anid):
-        self.data['id'] = anid
+class UploadHandler_v1(UploadHandler):
+    version = "v1"
 
-    def setVersion(self,version):
-        self.data['version'] = version+"/"
+class UploadHandler_v2(UploadHandler):
+    version = "v2"
 
-    def setImageType(self,imtype):
-        self.data['imtype'] = imtype
+class ColorHandler(tornado.web.RequestHandler):
 
-    def setNextStep(self,next_url):
-        self.data['next'] = next_url
+    def get(self,version,image_id):
+        pr = webbased_preview.ColorOptions(image_id,version)
+        self.write(pr.getJSON())
 
-    def addOption(self,iid):
-        self.data['options'].append(iid) 
+class PreviewHandler(tornado.web.RequestHandler):
 
-    def produce(self):
-        return json.dumps(self.data)
+    def get(self,version,image_id):
+        pr = webbased_preview.Preview(image_id,version)
+        self.write(pr.getJSON())
 
+class FinalHandler(tornado.web.RequestHandler):
 
-class Cropper:
+   def get(self,version,image_id):
+        pr = webbased_preview.Final(image_id,version)
+        self.write(pr.getJSON())
+	print "hallo"
 
-    W = 500
-    H = 500
-
-    def __init__(self,image_name,imid,version):
-
-        self.imid = imid
-        self.response = Response()
-        self.response.setNextStep("color/")
-        self.response.setImageType(".jpg")
-        self.response.setVersion(version)
-        self.response.setID("crops")
-
-        im = Image.open(image_name)
-
-        try:
-            rot = im._getexif()[274]
-            if rot == 6:
-                im = im.rotate(-90)
-        except:
-            print "no rotation exif"
-
-        w,h = im.size
-
-        crops = None
-
-        if w < h:
-
-            zoom = int(round(w * 0.25))
-            zoom_2 = int(round(w * 0.125))
-            offset_1 = 0
-            offset_2 = int(round((h-w)/2.0))
-            offset_3 = int(round(h-w))
-            crops = [
-                (0,offset_1,w,w+offset_1),
-                (0,offset_2,w,w+offset_2),
-                (0,offset_3,w,w+offset_3),
-                #zoomed
-                (zoom,offset_1+zoom,w-zoom,w+offset_1-zoom),
-                (zoom,offset_2+zoom,w-zoom,w+offset_2-zoom),
-                (zoom,offset_3+zoom,w-zoom,w+offset_3-zoom),
-
-                (zoom_2,offset_1+zoom_2,w-zoom_2,w+offset_1-zoom_2),
-                (zoom_2,offset_2+zoom_2,w-zoom_2,w+offset_2-zoom_2),
-                (zoom_2,offset_3+zoom_2,w-zoom_2,w+offset_3-zoom_2)
-            ]
-
-            
-        else:
-
-            zoom = int(round(h * 0.25))
-            zoom_2 = int(round(h * 0.125))
-            offset_1 = 0
-            offset_2 = int(round((w-h)/2.0))
-            offset_3 = int(round(w-h))
-            crops = [
-                (offset_1,0,h+offset_1,h),
-                (offset_2,0,h+offset_2,h),
-                (offset_3,0,h+offset_3,h),
-                #zoomed
-                (offset_1+zoom,zoom,h+offset_1-zoom,h-zoom),
-                (offset_2+zoom,zoom,h+offset_2-zoom,h-zoom),
-                (offset_3+zoom,zoom,h+offset_3-zoom,h-zoom),
-
-                (offset_1+zoom_2,zoom_2,h+offset_1-zoom_2,h-zoom_2),
-                (offset_2+zoom_2,zoom_2,h+offset_2-zoom_2,h-zoom_2),
-                (offset_3+zoom_2,zoom_2,h+offset_3-zoom_2,h-zoom_2)
-            ]
-
-        
-        cr_count = 0
-        for cr in crops:
-            crim = im.crop(cr)
-            _s = int(self.W),int(self.H)
-            crim = crim.resize(_s,Image.BICUBIC)
-            crim.save(OUPUT_DIR+self.imid+str(cr_count)+".jpg")
-            iid = self.imid+str(cr_count)
-            self.response.addOption(iid)
-            cr_count += 1
-
-    def getJSON(self):
-        return self.response.produce()
-
-
-class ColorOptions:
-
-    def __init__(self,image_name,version):
-        self.version = version
-        self.response = Response()
-        self.response.setNextStep("preview/")
-        self.response.setVersion(version)
-        self.response.setID("colors")
-        self.image_name = image_name
-        im = Image.open(OUPUT_DIR+image_name+".jpg").convert("L")
-        self.numpy_im = np.asarray(im)
-        self.color_deltas = np.diff(settings.colors(version),axis=0)
-        self.genPresets()
-
-    def genPresets(self):
-        for l in settings.levels(self.version):
-            self.preview(l)
-
-    def preview(self,levels):
-        r = self.numpy_im * 0
-        g = self.numpy_im * 0
-        b = self.numpy_im * 0
-        i = 0
-        for l in levels[0]:
-            cr = (self.numpy_im > l) * self.color_deltas[i][0]
-            cg = (self.numpy_im > l) * self.color_deltas[i][1]
-            cb = (self.numpy_im > l) * self.color_deltas[i][2]
-            r = r + cr
-            g = g + cg
-            b = b + cb
-            i += 1
-
-        a = np.dstack((r,g,b))
-        a = np.uint8(a)
-        t = Image.fromarray(a)
-        iid = self.image_name+levels[1]
-        self.response.addOption(iid)
-        t.save(OUPUT_DIR+self.image_name+levels[1]+".png")
-
-    def getJSON(self):
-        return self.response.produce()
+   
 
 
 
 
-class Preview:
-
-    def __init__(self,image_name,version):
-        self.version = version
-        self.response = Response()
-        self.response.setNextStep("")
-        self.response.setVersion(version)
-        self.response.setID("preview")
-        self.preview_name = image_name
-        color_id = image_name.split("_")[1]
-        image_name = image_name.split("_")[0]
-        im = Image.open(OUPUT_DIR+image_name+".jpg").convert("L").resize((1000,1000),Image.BICUBIC)
-        self.numpy_im = np.asarray(im)
-        self.color_deltas = np.diff(settings.colors(version),axis=0)
-        cid = int(color_id)
-        self.preview(settings.levels(version)[cid])
-
-    def preview(self,levels):
-        layers = []
-        i = 0
-        for l in levels[0]:
-            cr = (self.numpy_im > l) * 255
-            a = cr + settings.masks(self.version)[i]
-            a = np.clip(a,0,255)
-            a = np.uint8(a)
-            layers.append(a)
-            i += 1
-
-        layers.reverse()
-        bg = layers[0]
-        counter = 1
-        for layer in layers[1:]:
-            bg = np.where(layer != 255,layer,bg)
-            if self.version == "v2":
-                if counter < 2:
-                    bg[bg==0] = 200
-                elif counter < 4:
-                    bg[bg==0] = 23
-            counter += 1
-
-        r = np.copy(bg)
-        g = bg
-        b = bg
-
-        r[r==23] = 219
-
-        a = np.dstack((r,g,b))
-        a = np.uint8(a)
-        t = Image.fromarray(a)
-        t = t.resize((500,500),Image.ANTIALIAS)
-        self.response.addOption(self.preview_name+"_preview")
-        t.save(OUPUT_DIR+self.preview_name+"_preview.png")
-
-    def getJSON(self):
-        return self.response.produce()
-
-
-class Final:
-
-    def __init__(self,image_name,version):
-        self.version = version
-        self.response = Response()
-        self.response.setNextStep("")
-        self.response.setVersion(version)
-        self.response.setID("preview")
-        self.preview_name = image_name
-        color_id = image_name.split("_")[1]
-        image_name = image_name.split("_")[0]
-        im = Image.open(OUPUT_DIR+image_name+".jpg").convert("L").resize((1000,1000),Image.BICUBIC)
-        self.numpy_im = np.asarray(im)
-        self.color_deltas = np.diff(settings.colors(version),axis=0)
-        cid = int(color_id)
-        self.printlevel(settings.levels(version)[cid])
-	print "save final layers"
-
-
-
-    def printlevel(self,levels):
-        layers = []
-        i = 0
-        for l in levels[0]:
-            cr = (self.numpy_im > l) * 255
-            a = cr + settings.masks(self.version)[i]
-            a = np.clip(a,0,255)
-            a = np.uint8(a)
-            layers.append(a)
-            i += 1
-
-        layers.reverse()
-        bg = layers[0]
-        counter = 1
-        for layer in layers[1:]:
-            bg = np.where(layer != 255,layer,bg)
-            if self.version == "v2":
-                if counter < 2:
-                    bg[bg==0] = 200
-                elif counter < 4:
-                    bg[bg==0] = 23
-            counter += 1
-
-        r = np.copy(bg)
-        g = bg
-        b = bg
-
-        r[r==23] = 219
-
-        a = np.dstack((r,g,b))
-        a = np.uint8(a)
-        t = Image.fromarray(a)
-        t = t.resize((500,500),Image.ANTIALIAS)
-        self.response.addOption(self.preview_name+"_preview")
-        t.save(OUPUT_DIR+self .preview_name+levels[1]+"_preview_printout.jpg")
-
-    def getJSON(self):
-        return self.response.produce()
-
+def main():
+    tornado.options.parse_command_line()
+    application = tornado.web.Application([
+        (r"/", MainHandler),
+        (r"/v1/images/upload", UploadHandler_v1),
+        (r"/v2/images/upload", UploadHandler_v2),
+        (r"/?(?P<version>[^\/]+)?/color/?(?P<image_id>[^\/]+)?", ColorHandler),
+        (r"/?(?P<version>[^\/]+)?/preview/?(?P<image_id>[^\/]+)?", PreviewHandler),
+#	(r"/rolf", webbased_preview.Final),
+	(r"/?(?P<version>[^\/]+)?/?(?P<image_id>[^\/]+)?_preview?", FinalHandler),
+    ])
+    http_server = tornado.httpserver.HTTPServer(application)
+    http_server.listen(options.port)
+    tornado.ioloop.IOLoop.instance().start()
 
 
 if __name__ == "__main__":
-     #OutputFolder()
-
-    # test the simple api
-    print Cropper("jimi-hendrix.jpg","imagecrop","v1").getJSON()
-    print ColorOptions("imagecrop1","v1").getJSON()
-    print Preview("imagecrop1_0","v1").getJSON()
-
-    print Cropper("jimi-hendrix.jpg","imagecrop","v2").getJSON()
-    print ColorOptions("imagecrop1","v2").getJSON()
-    print Preview("imagecrop1_0","v2").getJSON()
-
-
+    main()
