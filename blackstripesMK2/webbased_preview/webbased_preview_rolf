@@ -251,47 +251,14 @@ class Final:
         self.numpy_im = np.asarray(im)
         self.color_deltas = np.diff(settings.colors(version),axis=0)
         cid = int(color_id)
-        self.printlevel(settings.levels(version)[cid])     
+#        self.printlevel(settings.levels(version)[cid])     
 	print "save final layers AAA"
+        self.response.addOption(self.preview_name+"_preview")
+        self.response.addOption(self.preview_name+"output2")
 
 	im.save(OUPUT_DIR+self.preview_name+"output2.png")
 
 
-    def printlevel(self,levels):
-        layers = []
-        i = 0
-        for l in levels[0]:
-            cr = (self.numpy_im > l) * 255
-            a = cr + settings.masks(self.version)[i]
-            a = np.clip(a,0,255)
-            a = np.uint8(a)
-            layers.append(a)
-            i += 1
-
-        layers.reverse()
-        bg = layers[0]
-        counter = 1
-        for layer in layers[1:]:
-            bg = np.where(layer != 255,layer,bg)
-            if self.version == "v2":
-                if counter < 2:
-                    bg[bg==0] = 200
-                elif counter < 4:
-                    bg[bg==0] = 23
-            counter += 1
-
-        r = np.copy(bg)
-        g = bg
-        b = bg
-
-        r[r==23] = 219
-
-        a = np.dstack((r,g,b))
-        a = np.uint8(a)
-        t = Image.fromarray(a)
-        t = t.resize((500,500),Image.ANTIALIAS)
-        self.response.addOption(self.preview_name+"_preview")
-        t.save(OUPUT_DIR+self.preview_name+levels[1]+"_preview_printout.png")
 
 
 
