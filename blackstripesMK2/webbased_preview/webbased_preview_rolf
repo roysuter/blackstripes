@@ -245,12 +245,16 @@ class Final:
         color_id = image_name.split("_")[1]
         image_name = image_name.split("_")[0]
         im = Image.open(OUPUT_DIR+image_name+".jpg").convert("L").resize((1000,1000),Image.BICUBIC)
+
+	im.save(OUPUT_DIR+"output1.png")
+
         self.numpy_im = np.asarray(im)
         self.color_deltas = np.diff(settings.colors(version),axis=0)
         cid = int(color_id)
-        self.printlevel(settings.levels(version)[cid])
-	print "save final layers"
+        self.printlevel(settings.levels(version)[cid])     
+	print "save final layers AAA"
 
+	im.save(OUPUT_DIR+self.preview_name+"output2.png")
 
 
     def printlevel(self,levels):
@@ -287,7 +291,9 @@ class Final:
         t = Image.fromarray(a)
         t = t.resize((500,500),Image.ANTIALIAS)
         self.response.addOption(self.preview_name+"_preview")
-        t.save(OUPUT_DIR+self .preview_name+levels[1]+"_preview_printout.jpg")
+        t.save(OUPUT_DIR+self.preview_name+levels[1]+"_preview_printout.png")
+
+
 
     def getJSON(self):
         return self.response.produce()
@@ -305,5 +311,3 @@ if __name__ == "__main__":
     print Cropper("jimi-hendrix.jpg","imagecrop","v2").getJSON()
     print ColorOptions("imagecrop1","v2").getJSON()
     print Preview("imagecrop1_0","v2").getJSON()
-
-
