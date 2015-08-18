@@ -259,7 +259,21 @@ class Final:
 	im.save(OUPUT_DIR+self.preview_name+"output2.png")
 
 
+	print "save final layers AAA"
 
+#	print(image)
+	print(image_name)
+	print(self.preview_name)
+	print(version)
+	print(color_id)
+	print(cid)
+	print(settings.v1_levels[4])
+	print(settings.levels(version)[cid])
+
+	level_id = settings.levels(version)[cid]
+	print(level_id)
+	level_no = "([56, 110, 146, 200], '_3')".split("]")[0]
+	print(level_no)
 
 
     def getJSON(self):
