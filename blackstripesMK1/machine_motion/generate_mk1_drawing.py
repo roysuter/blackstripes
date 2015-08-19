@@ -81,3 +81,9 @@ if __name__ == '__main__':
     os.remove('layer3.dat')
     os.remove('layer4.dat')
 
+# run() is  for the real simulated output with all printer paths visialized in light magenta, saved in rolf_realoutput.png
+
+# simulate() is generating layer previels in rolf_sep_0.png and rolf_poster.png
+
+simulator.SimuDriver(basepath+order_id).simulate()
+simulator.SimuDriver(basepath+order_id).run()
