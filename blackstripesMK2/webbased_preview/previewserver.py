@@ -13,8 +13,20 @@
 #  sudo python setup.py install
 #
 #  on raspberry first:  
-#  sudo apt-get install python-pip python-dev build-essential
-#  sudo pip install Tornado
+#  sudo apt-get update
+#  sudo apt-get upgrade
+#
+#  2.  Install easy_install and pip (which are Python package managers)
+#
+#  sudo apt-get install python-pip python2.7-dev
+#
+#  3.  Update your easy_install (and pip) package definitions
+#
+#  sudo easy_install -U distribute
+#
+#  4.  Now install Tornado using pip
+#
+#  sudo pip install tornado
 #
 # notes to self
 # http://didipkerabat.com/post/2724838963/nginx-file-upload-and-tornado-framework
