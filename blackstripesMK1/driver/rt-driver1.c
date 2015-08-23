@@ -7,8 +7,8 @@
 #include <native/task.h>
 #include <native/timer.h>
 RT_TASK draw_task;
-#define RIGHT_CLOCK RPI_GPIO_P1_05
-#define RIGHT_DIR RPI_GPIO_P1_03
+#define RIGHT_CLOCK RPI_GPIO_P1_12
+#define RIGHT_DIR RPI_GPIO_P1_11
 #define LEFT_CLOCK RPI_GPIO_P1_08
 #define LEFT_DIR RPI_GPIO_P1_07
 #define SOLENOID RPI_GPIO_P1_10
