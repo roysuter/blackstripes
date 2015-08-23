@@ -12,7 +12,7 @@
 # python setup.py build
 #  sudo python setup.py install
 #
-#  on raspberry first:  
+#  Tornado on raspberry :   http://buonageek.blogspot.ch/2013/07/raspberry-pi-python-tornado-nginx.html  
 #  sudo apt-get update
 #  sudo apt-get upgrade
 #
