@@ -36,14 +36,14 @@
 # git clone -b 2.2 git://github.com/vkholodkov/nginx-upload-module.git nginx-upload-module-2.2m
 #
 # PCRE - Perl Compatible Regular Expressions   http://www.pcre.org/
-# download under     http://sourceforge.net/projects/pcre/files/pcre/8.37/pcre-8.37.tar.bz2/download
+# download under     http://sourceforge.net/projects/pcre/files/pcre/8.37/pcre-8.37.tar.gz
 #
 # sudo ./configure --prefix=/usr/local --with-http_ssl_module --with-pcre=../pcre-8.33 --add-module=/home/rolf/Documents/nginx-upload-module-2.2m
 #
 # sudo ./configure --prefix=/usr/local --with-http_ssl_module --with-pcre=/home/rolf/Documents/pcre-8.37 --add-module=/home/rolf/Documents/nginx-upload-module-2.2
 #
-# make
-# make install
+# sudo make
+# sudo make install
 #
 #
 # sudo /usr/local/sbin/nginx -c /home/rolf/Documents/blackstripes/blackstripesMK2/webbased_preview/nginx.conf
