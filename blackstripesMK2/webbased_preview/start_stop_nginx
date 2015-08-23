@@ -1,6 +1,6 @@
-sudo /etc/init.d/nginx start
-sudo /etc/init.d/nginx stop
-sudo /etc/init.d/nginx restart
+sudo /usr/local/sbin/nginx start
+sudo /usr/local/sbin/nginx stop
+sudo /usr/local/sbin/nginx restart
 
 
  Options
