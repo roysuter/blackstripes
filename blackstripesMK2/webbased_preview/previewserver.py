@@ -12,6 +12,9 @@
 # python setup.py build
 #  sudo python setup.py install
 #
+#  on raspberry first:  
+#  sudo apt-get install python-pip python-dev build-essential
+#  sudo pip install Tornado
 #
 # notes to self
 # http://didipkerabat.com/post/2724838963/nginx-file-upload-and-tornado-framework
