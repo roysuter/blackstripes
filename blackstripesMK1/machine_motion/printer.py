@@ -28,8 +28,8 @@ class Printer:
         self.output_path = output_path
         self.rawoutput = open(self.output_path+'layer0.dat', 'w')
         self.layercounter = 0
-        L_clk = 5   #header pin 5 
-        L_dir = 3   #header pin 3 
+        L_clk = 12   #header pin 12 
+        L_dir = 11   #header pin 11 
         R_dir = 7   #header pin 7
         R_clk  = 8   #header pin 8
         Solenoid = 10  #header pin 10
