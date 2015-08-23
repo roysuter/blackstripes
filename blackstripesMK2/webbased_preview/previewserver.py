@@ -19,11 +19,17 @@
 #
 # Installing the SciPy Stack :  sudo apt-get install python-numpy python-scipy python-matplotlib ipython ipython-notebook python-pandas python-sympy python-nose
 #
-# NOTE: nginx-upload-module 2.2.0 is ONLY supported up to nginx versions 1.3.8 (dev) up to release-1.2.6  / 1.2.9 branch is unaffected.
+#
 #
 # packages list and install:   apt-get install dpkg-dev build-essential zlib1g-dev libpcre3 libpcre3-dev unzip curl libcurl4-openssl-dev libossp-uuid-dev
 #  How do I install the OpenSSL C++      sudo apt-get install libssl-dev      sudo apt-get install openssl
+#
+# NOTE: nginx-upload-module 2.2.0 is ONLY supported up to nginx versions 1.3.8 (dev) up to release-1.2.6  / 1.2.9 branch is unaffected.
+#
 # Nginx Source  http://nginx.org/
+# Nginx version 1.2.9 download under    http://nginx.org/download/nginx-1.2.9.tar.gz
+#
+#
 # nginx-upload-module  https://github.com/vkholodkov/nginx-upload-module/tree/2.2
 # sudo wget https://github.com/vkholodkov/nginx-upload-module/archive/2.2.zip
 # unzip 2.2.zip
