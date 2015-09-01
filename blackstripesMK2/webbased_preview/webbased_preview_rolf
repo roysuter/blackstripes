@@ -235,7 +235,7 @@ class Preview:
 
 class Final:
 
-    def __init__(self,image_name,version):
+ def __init__(self,image_name,version):
         self.version = version
         self.response = Response()
         self.response.setNextStep("")
@@ -246,33 +246,33 @@ class Final:
         image_name = image_name.split("_")[0]
 
 
-        self.response.addOption(self.preview_name+"_preview")
-        self.response.addOption(self.preview_name+"output1")	
 
+
+        self.response.addOption(self.preview_name+"_preview")
+	
 
         im = Image.open(OUPUT_DIR+image_name+".jpg").convert("L").resize((1000,1000),Image.BICUBIC)
 
 
-	im.save(OUPUT_DIR+"output1.png")
+#	im.save(OUPUT_DIR+self.preview_name+"output1.png")
 
 
 
 
         self.numpy_im = np.asarray(im)
         self.color_deltas = np.diff(settings.colors(version),axis=0)
-        cid = int(color_id)     
-
-
+  
+        cid = int(color_id)  
 	level_id = settings.levels(version)[cid][0]
+	level_no = "_".join(map(str,level_id))
 
-	im.save(OUPUT_DIR+self.preview_name+"output1.png")
+	im.save(OUPUT_DIR+self.preview_name+level_no+".png")
+
+        self.response.addOption(self.preview_name+level_no)
 
 
 
 
-
-
-	print "save final layers AAA"
 
 #	print(image)
 	print(image_name)
@@ -283,17 +283,19 @@ class Final:
 	print(settings.v1_levels[4])
 	print(settings.levels(version)[cid])
 
-	level_id = settings.levels(version)[cid][0]
-	
+
+#	level_id = settings.levels(version)[cid][0]	
 	print(level_id)
+	print(level_no)
 
-
-	print "_".join(map(str,level_id))
-	print str(level_id)
+#	print "_".join(map(str,level_id))
+#	print str(level_id)
+#	print str(level_id).strip("[]")
 	
-#	level_no = "_".join(map(str,level_id))
+	
+
 #	level_no = "-".join(level_id)
-#	print(level_no)
+
 
 #	test = level_no.replace('([', '_').replace(']', '').replace(", ", "_")
 
@@ -304,6 +306,11 @@ class Final:
 
 #	printpreview(settings.levels)
 #	print(layers)
+
+
+    def getJSON(self):
+        return self.response.produce()
+
 
 
     def getJSON(self):
