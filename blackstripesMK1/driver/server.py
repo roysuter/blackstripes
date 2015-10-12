@@ -3,6 +3,10 @@ import tornado.ioloop
 import tornado.options
 import tornado.web
 import tornado.websocket
+
+# http://niltoid.com/blog/raspberry-pi-arduino-tornado/
+# Adding websockets to your Tornado app is easy. Below is the modified version of server.py. It also includes support for command line arguments on line 8 (so you can run the program using “python server.py –port=8080″).
+# 
  
 from tornado.options import define, options
 define("port", default=8080, help="run on the given port", type=int)
