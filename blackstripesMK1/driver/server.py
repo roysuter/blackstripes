@@ -7,6 +7,8 @@ import tornado.websocket
 # http://niltoid.com/blog/raspberry-pi-arduino-tornado/
 # http://martinsant.net/?page_id=479
 # HTML5 JavaScript Library: http://kineticjs.com/
+# Essentially, after installing everything, you take the html file, the server.py file and the kineticJS.js file and place them in the /var/www folder. Then you run server.py which just enters an infinte loop looking for commands that come in.
+#
 #
 # Adding websockets to your Tornado app is easy. Below is the modified version of server.py. It also includes support for command line arguments on line 8 (so you can run the program using “python server.py –port=8080″).
 # And here is the corresponding index.html, which connects to the websocket server. I used KineticJS to quickly create a simple red circle on a canvas which listens from click events.  Be sure that your “ws://” url is correct.
