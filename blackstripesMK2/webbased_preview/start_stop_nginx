@@ -2,6 +2,8 @@ sudo /usr/local/sbin/nginx start
 sudo /usr/local/sbin/nginx -s stop
 sudo /usr/local/sbin/nginx restart
 
+default folder for nginx.conf   --> /usr/local/conf
+
 
  Options
 
